@@ -3,6 +3,9 @@ from collections import defaultdict
 from log import load
 from log import crawler
 
+# 期望保留页面、文档、媒体类型
+EXCEPT_RESOURCE = ['.html', 'htm', 'pdf', 'doc', 'docx', 'mpg']
+
 
 class LogRecord(object):
     """ 日志记录类 """
@@ -27,16 +30,15 @@ class LogRecord(object):
         for log in self.logs:
             ip = log['ip']
             url = log['url']
-            # 过滤js，css的日志数据
-            if url.endswith(".js") or url.endswith(".css"):
-                continue
-            ip_data[ip].setdefault('num', 0)
-            ip_data[ip]['num'] += 1
-            ip_data[ip].setdefault('article', set())
-            ip_data[ip]['article'].add(url)
-            ip_data[ip].setdefault(url, 0)
-            ip_data[ip][url] += 1
-
+            # # 只保留页面、文档、媒体类型访问
+            for resource in EXCEPT_RESOURCE:
+                if url.endswith(resource):
+                    ip_data[ip].setdefault('num', 0)
+                    ip_data[ip]['num'] += 1
+                    ip_data[ip].setdefault('article', set())
+                    ip_data[ip]['article'].add(url)
+                    ip_data[ip].setdefault(url, 0)
+                    ip_data[ip][url] += 1
         return ip_data
 
     def url_data(self):
@@ -48,13 +50,13 @@ class LogRecord(object):
         for log in self.logs:
             ip = log['ip']
             url = log['url']
-            # 过滤不需要的数据
-            if url.endswith(".js") or url.endswith(".css"):
-                continue
-            url_data[url].setdefault('num', 0)
-            url_data[url]['num'] += 1
-            url_data[url].setdefault('ip', set())
-            url_data[url]['ip'].add(ip)
+            # 只保留页面、文档、媒体类型访问
+            for resource in EXCEPT_RESOURCE:
+                if url.endswith(resource):
+                    url_data[url].setdefault('num', 0)
+                    url_data[url]['num'] += 1
+                    url_data[url].setdefault('ip', set())
+                    url_data[url]['ip'].add(ip)
 
         return url_data
 

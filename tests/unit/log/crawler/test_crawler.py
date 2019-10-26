@@ -11,6 +11,7 @@ class TestCrawler(unittest.TestCase):
         act_value = crawler.get_title(fake_data.url)
         self.assertEqual(exp_value, act_value)
 
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_get_title_failed(self):
+        exp_value = fake_data.get_title_failed_ret
+        act_value = crawler.get_title(fake_data.url_error)
+        self.assertEqual(exp_value, act_value)

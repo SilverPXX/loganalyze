@@ -28,7 +28,3 @@ class TestLogReport(unittest.TestCase):
         exp_value = fake_data.print_info_ret
         act_value = self.report.print_info(fake_data.print_info)
         self.assertEqual(exp_value, act_value)
-
-
-if __name__ == '__main__':
-    unittest.main()

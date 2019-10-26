@@ -71,12 +71,3 @@ class LogReport(object):
 
         print print_info.decode('utf-8').encode('GBK') + '|'
         print separator + '|'
-
-
-if __name__ == "__main__":
-    log_data = record.record_data('E:\\apache.log')
-    report = LogReport(log_data)
-    report.article_report()
-    report.ip_report()
-    report.full_report()
-    report.all_report()
