@@ -1,8 +1,10 @@
 # - * - coding: UTF - 8 - * -
-import re
 
 
 class LoadFile(object):
+    """
+    导入日志文件类
+    """
     def __init__(self, path):
         self.log_path = path
 
@@ -12,6 +14,11 @@ class LoadFile(object):
                 yield self.__struct(line)
 
     def __struct(self, single_log):
+        """
+
+        :param single_log: 单行日志
+        :return: 日志数据字典
+        """
         log_data = single_log.split()
         ip = log_data[0]
         date = log_data[3] + ' ' + log_data[4]
@@ -22,8 +29,3 @@ class LoadFile(object):
         byte = log_data[9]
         return dict(ip=ip, date=date, method=method, url=url,
                     protocol=protocol, status=status, byte=byte)
-
-
-# log_data = LoadFile('E:\\apache.log')
-# for log in log_data:
-#     print log

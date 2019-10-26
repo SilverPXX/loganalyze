@@ -1,6 +1,6 @@
 # - * - coding: UTF - 8 - * -
 from collections import defaultdict
-from log import parse
+from log import load
 from log import crawler
 
 
@@ -10,14 +10,24 @@ class LogRecord(object):
         self.logs = logs
 
     def record_url(self, server_ip=None):
+        """
+
+        :param server_ip: 请求服务端的ip地址
+        :return: 包括文章标题的url相关数据
+        """
         url_data = self.url_data()
         return self.get_title(url_data, server_ip)
 
     def record_ip(self):
+        """
+
+        :return: ip的相关数据
+        """
         ip_data = defaultdict(defaultdict)
         for log in self.logs:
             ip = log['ip']
             url = log['url']
+            # 过滤js，css的日志数据
             if url.endswith(".js") or url.endswith(".css"):
                 continue
             ip_data[ip].setdefault('num', 0)
@@ -30,6 +40,10 @@ class LogRecord(object):
         return ip_data
 
     def url_data(self):
+        """
+
+        :return: 包括url的访问次数，访问ip数
+        """
         url_data = defaultdict(defaultdict)
         for log in self.logs:
             ip = log['ip']
@@ -45,6 +59,12 @@ class LogRecord(object):
         return url_data
 
     def get_title(self, url_data, server_ip=None):
+        """
+
+        :param url_data: 包括url的访问次数，访问ip数
+        :param server_ip: 请求的服务器ip
+        :return: 包括文章标题的url相关数据
+        """
         for url in url_data.keys():
             url_data[url].setdefault('title', None)
             if server_ip:
@@ -55,6 +75,8 @@ class LogRecord(object):
 
 
 def record_data(log_file, server_ip=None):
-    log_data = parse.LoadFile(log_file)
+    # 1.获取到日志文件数据
+    log_data = load.LoadFile(log_file)
     record = LogRecord(log_data)
+    # 2.记录url和ip的相关数据
     return dict(url_data=record.record_url(server_ip), ip_data=record.record_ip())

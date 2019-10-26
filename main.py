@@ -5,7 +5,8 @@ from cmd.cmd_parse import ParseCmd
 
 def main():
     cmd = ParseCmd()
-    cmd.parse_cmd()
+    args = cmd.parse_cmd()
+    cmd.execute_cmd(args)
 
 
 if __name__ == "__main__":

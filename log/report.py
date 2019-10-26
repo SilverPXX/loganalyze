@@ -1,8 +1,6 @@
 #! /usr/bin/python
 # - * - coding: UTF - 8 - * -
 from log import record
-from log import crawler
-from log import parse
 URL = 'URL'
 IP = 'IP'
 TITLE = '文章标题'
@@ -16,21 +14,33 @@ class LogReport(object):
         self.data = data
 
     def article_report(self):
-        """ 文章报表 """
+        """
+
+        :return: 文章报表
+        """
         info = [URL, TITLE, VISITS, ACCESS_IP_NUM]
         self.print_info(info)
         for url, value in self.data['url_data'].items():
-            print("| {} | {} |{} | {} |".format(url, value['title'], value['num'], len(value['ip'])))
+            title = None
+            if value['title']:
+                title = value['title'].decode('utf-8').encode('GBK')
+            print("| {} | {} |{} | {} |".format(url, title, value['num'], len(value['ip'])))
 
     def ip_report(self):
-        """  IP报表 """
+        """
+
+        :return: IP报表
+        """
         info = [IP, VISITS, ARTICLES_NUM]
         self.print_info(info)
         for ip, count in self.data['ip_data'].items():
             print("| {} | {} | {} |".format(ip, count['num'], len(count['article'])))
 
     def full_report(self):
-        """ 完整报表 """
+        """
+
+        :return: 完整报表
+        """
         info = [IP, URL, VISITS]
         self.print_info(info)
         for ip, count in self.data['ip_data'].items():
@@ -38,7 +48,10 @@ class LogReport(object):
                 print("| {} | {} | {} |".format(ip, url, count[url]))
 
     def all_report(self):
-        """ 全部报表 """
+        """
+
+        :return: 全部报表
+        """
         self.article_report()
         self.ip_report()
         self.full_report()
@@ -47,7 +60,7 @@ class LogReport(object):
         """
 
         :param info: 输出表字段
-        :return: 输出信息
+        :return: 输出表字段信息
         """
         print_info = ''
         separator = ''

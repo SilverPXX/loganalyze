@@ -16,25 +16,22 @@ class ParseCmd(object):
         parser.add_argument('-u', '--url', help='log source url')
         parser.add_argument('-t', '--type', help='output report type',
                             choices=['all', 'ip', 'article', 'full'], action='append')
-        args = parser.parse_args()
+        return parser.parse_args()
+
+    def execute_cmd(self, args):
         if args.url:
             log_data = record.record_data(args.log_file, args.url)
         else:
             log_data = record.record_data(args.log_file)
         self.log_report = report.LogReport(log_data)
-        if args.url and args.type:
+        if args.type:
+            report_dict = self.report_dict()
             for report_type in args.type:
-                self.report(report_type)
-        elif args.type:
-            for report_type in args.type:
-                self.report(report_type)
+                report_dict[report_type]()
 
-    def report(self, report_type):
-        if report_type == 'all':
-            self.log_report.all_report()
-        if report_type == 'article':
-            self.log_report.article_report()
-        if report_type == 'ip':
-            self.log_report.ip_report()
-        if report_type == 'full':
-            self.log_report.full_report()
+    def report_dict(self):
+        all = self.log_report.all_report
+        article = self.log_report.article_report
+        ip = self.log_report.ip_report
+        full = self.log_report.full_report
+        return dict(all=all, article=article, ip=ip, full=full)
