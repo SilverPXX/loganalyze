@@ -1,6 +1,7 @@
 # - * - coding: UTF - 8 - * -
 import unittest
 
+from analyzer import exception
 from analyzer.log.record import LogRecord
 from analyzer.tests.unit.log.record import fake_data
 

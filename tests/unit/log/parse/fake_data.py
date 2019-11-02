@@ -14,3 +14,7 @@ parse_log_ret = {
     },
     'size': 38093
 }
+
+single_log_none = '::1 - - [16/Feb/2019:11:27:29 +0800] "OPTIONS * HTTP/1.0" 200 -'
+
+parse_log_none_ret = None

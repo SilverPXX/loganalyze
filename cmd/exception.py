@@ -6,5 +6,5 @@ class UrlInvaild(Exception):
         self.url = url
 
     def __str__(self):
-        mesg = u"输入的url({})不合法！".format(repr(self.url))
+        mesg = u"输入的url（{}）不合法！".format(repr(self.url))
         return mesg.decode('utf-8').encode('GBK')

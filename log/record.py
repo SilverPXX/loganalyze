@@ -2,9 +2,7 @@
 import logging
 from collections import defaultdict
 
-from analyzer.log import exception
 from analyzer.common import logger
-from analyzer.log import parse
 from analyzer.log import crawler
 
 LOG = logging.getLogger(__name__)
@@ -41,7 +39,7 @@ class LogRecord(object):
                 continue
             ip = log['remote_addr']
             url = log['request']['url']
-            # # 只保留页面、文档、媒体类型访问
+            # 只保留页面、文档、媒体类型访问
             for resource in EXCEPT_RESOURCE:
                 if url.endswith(resource):
                     ip_data[ip].setdefault('num', 0)
@@ -88,14 +86,3 @@ class LogRecord(object):
                 url_data[url]['title'] = crawler.get_title(req)
 
         return url_data
-
-
-def record_data(log_file, server_ip=None):
-    # 1.获取到日志文件数据
-    log_data = parse.LogParse(log_file)
-    if not any(log_data):
-        LOG.error('file(%s) log data does not exist' % log_file)
-        raise exception.LogNotExists()
-    # 2.记录url和ip的相关数据
-    record = LogRecord(log_data)
-    return dict(url_data=record.record_url(server_ip), ip_data=record.record_ip())

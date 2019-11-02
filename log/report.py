@@ -11,6 +11,7 @@ ARTICLES_NUM = '访问文章数'
 class LogReport(object):
     def __init__(self, data):
         self.data = data
+        assert isinstance(data, dict)
 
     def article_report(self):
         """
@@ -30,7 +31,8 @@ class LogReport(object):
         """
         info = [IP, VISITS, ARTICLES_NUM]
         self.print_info(info)
-        for ip, val in self.data['ip_data'].items():
+        for ip, val in self.data.get('ip_data', None).items():
+
             print("| {} | {} | {} |".format(ip, val['num'], len(val['article'])))
 
     def full_report(self):

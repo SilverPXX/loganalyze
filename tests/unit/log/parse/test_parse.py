@@ -13,3 +13,7 @@ class TestLogParse(unittest.TestCase):
         act_value = self.parse._parse_log(fake_data.single_log)
         exp_value = fake_data.parse_log_ret
         self.assertEqual(exp_value, act_value)
+
+        act_value = self.parse._parse_log(fake_data.single_log_none)
+        exp_value = fake_data.parse_log_none_ret
+        self.assertEqual(exp_value, act_value)
