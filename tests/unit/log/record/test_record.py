@@ -1,8 +1,8 @@
 # - * - coding: UTF - 8 - * -
 import unittest
 
-from log.record import LogRecord
-from tests.unit.log.record import fake_data
+from analyzer.log.record import LogRecord
+from analyzer.tests.unit.log.record import fake_data
 
 
 class TestLogRecord(unittest.TestCase):

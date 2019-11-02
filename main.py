@@ -1,11 +1,12 @@
 #! /usr/bin/python
 # - * - coding: UTF - 8 - * -
-from cmd.cmd_parse import ParseCmd
+from analyzer.cmd import cmd_parse
+from analyzer.cmd import cmd_execute
 
 
 def main():
-    cmd = ParseCmd()
-    args = cmd.parse_cmd()
+    args = cmd_parse.parse_cmd()
+    cmd = cmd_execute.ExecuteCmd()
     cmd.execute_cmd(args)
 
 

@@ -1,6 +1,5 @@
-#! /usr/bin/python
 # - * - coding: UTF - 8 - * -
-from log import record
+
 URL = 'URL'
 IP = 'IP'
 TITLE = '文章标题'
@@ -15,7 +14,6 @@ class LogReport(object):
 
     def article_report(self):
         """
-
         :return: 文章报表
         """
         info = [URL, TITLE, VISITS, ACCESS_IP_NUM]
@@ -28,37 +26,34 @@ class LogReport(object):
 
     def ip_report(self):
         """
-
         :return: IP报表
         """
         info = [IP, VISITS, ARTICLES_NUM]
         self.print_info(info)
-        for ip, count in self.data['ip_data'].items():
-            print("| {} | {} | {} |".format(ip, count['num'], len(count['article'])))
+        for ip, val in self.data['ip_data'].items():
+            print("| {} | {} | {} |".format(ip, val['num'], len(val['article'])))
 
     def full_report(self):
         """
-
         :return: 完整报表
         """
         info = [IP, URL, VISITS]
         self.print_info(info)
-        for ip, count in self.data['ip_data'].items():
-            for url in count['article']:
-                print("| {} | {} | {} |".format(ip, url, count[url]))
+        for ip, val in self.data['ip_data'].items():
+            for url in val['article']:
+                print("| {} | {} | {} |".format(ip, url, val[url]))
 
     def all_report(self):
         """
-
         :return: 全部报表
         """
         self.article_report()
         self.ip_report()
         self.full_report()
 
-    def print_info(self, info):
+    @staticmethod
+    def print_info(info):
         """
-
         :param info: 输出表字段
         :return: 输出表字段信息
         """
@@ -69,5 +64,5 @@ class LogReport(object):
             print_info = print_info + "|" + res
             separator = separator + "|" + '-' * len(res)
 
-        print print_info.decode('utf-8').encode('GBK') + '|'
+        print '\n' + print_info.decode('utf-8').encode('GBK') + '|'
         print separator + '|'

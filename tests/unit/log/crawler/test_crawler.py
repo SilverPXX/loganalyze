@@ -1,8 +1,8 @@
 # - * - coding: UTF - 8 - * -
 import unittest
 
-from log import crawler
-from tests.unit.log.crawler import fake_data
+from analyzer.log import crawler
+from analyzer.tests.unit.log.crawler import fake_data
 
 
 class TestCrawler(unittest.TestCase):

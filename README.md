@@ -6,38 +6,41 @@
 
 #### 使用方法
 
->python main.py -h
+> python main.py -h
 ```
-usage: main.py [-h] [-u URL] [-t {all,ip,article,full}] log_file
-
-positional arguments:
-  log_file              log file path
+usage: main.py [-h] -f LOG_FILE -t {all,ip,article,full} [-i IP]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -u URL, --url URL     log source url
+  -f LOG_FILE, --log_file LOG_FILE
+                        log file path
   -t {all,ip,article,full}, --type {all,ip,article,full}
                         output report type
+  -i IP, --ip IP        log source ip
 
-example: python main.py E:\\apache.log -t article -u 200.200.1.35
+example: python main.py -f D:\\apache.log -t article -u 200.200.1.35
 ```
 
 #### 结果
 
->F:\Persis\SANGFOR\analyzer>python main.py E:\\apache.log -t article -t all -u isyk.xyz:8001
+> python main.py -f D:\\apache.log -t article -t all -u isyk.xyz:8001
 ```
+
 | URL | 文章标题 | 访问次数 | 访问IP数 |
 |-----|--------------|--------------|-------------|
 | /coding/miniprj/material.html | 今日头条 |1 | 1 |
 | /designing/tools/image/UML_classes.docx | None |1 | 1 |
+
 | URL | 文章标题 | 访问次数 | 访问IP数 |
 |-----|--------------|--------------|-------------|
 | /coding/miniprj/material.html | 今日头条 |1 | 1 |
 | /designing/tools/image/UML_classes.docx | None |1 | 1 |
+
 | IP | 访问次数 | 访问文章数 |
 |----|--------------|-----------------|
 | 177.1.81.42 | 1 | 1 |
 | 200.200.76.130 | 1 | 1 |
+
 | IP | URL | 访问次数 |
 |----|-----|--------------|
 | 177.1.81.42 | /designing/tools/image/UML_classes.docx | 1 |
@@ -47,25 +50,28 @@ example: python main.py E:\\apache.log -t article -u 200.200.1.35
 ### 单测
 
 #### 使用方法
->pytest
+> pytest
 ```
 在项目根目录下执行pytest即可
 ```
 
 #### 结果
->F:\Persis\SANGFOR\analyzer>pytest
+> pytest
 ```
 ============================= test session starts =============================
-platform win32 -- Python 2.7.15, pytest-4.6.6, py-1.8.0, pluggy-0.13.0
-rootdir: F:\Persis\SANGFOR\analyzer
+platform win32 -- Python 2.7.17, pytest-4.6.6, py-1.8.0, pluggy-0.13.0
+rootdir: D:\workspace\analyzer\analyzer
 plugins: cov-2.8.1
-collected 10 items
+collected 16 items
 
-tests\unit\log\crawler\test_crawler.py ..                                [ 20%]
-tests\unit\log\record\test_record.py ....                                [ 60%]
+tests\unit\cmd\test_cmd_execute.py ....                                  [ 25%]
+tests\unit\cmd\test_cmd_parse.py .                                       [ 31%]
+tests\unit\log\crawler\test_crawler.py ..                                [ 43%]
+tests\unit\log\parse\test_parse.py .                                     [ 50%]
+tests\unit\log\record\test_record.py ....                                [ 75%]
 tests\unit\log\report\test_report.py ....                                [100%]
 
-========================== 10 passed in 0.54 seconds ==========================
+========================== 16 passed in 3.10 seconds ==========================
 ```
 
 ### 单测覆盖率
@@ -78,45 +84,60 @@ tests\unit\log\report\test_report.py ....                                [100%]
 
 #### 结果
 
->F:\Persis\SANGFOR\analyzer>pytest --cov ./
+> pytest --cov ./
 ```
 ============================= test session starts =============================
-platform win32 -- Python 2.7.15, pytest-4.6.6, py-1.8.0, pluggy-0.13.0
-rootdir: F:\Persis\SANGFOR\analyzer
+platform win32 -- Python 2.7.17, pytest-4.6.6, py-1.8.0, pluggy-0.13.0
+rootdir: D:\workspace\analyzer\analyzer
 plugins: cov-2.8.1
-collected 10 items
+collected 16 items
 
-tests\unit\log\crawler\test_crawler.py ..                                [ 20%]
-tests\unit\log\record\test_record.py ....                                [ 60%]
+tests\unit\cmd\test_cmd_execute.py ....                                  [ 25%]
+tests\unit\cmd\test_cmd_parse.py .                                       [ 31%]
+tests\unit\log\crawler\test_crawler.py ..                                [ 43%]
+tests\unit\log\parse\test_parse.py .                                     [ 50%]
+tests\unit\log\record\test_record.py ....                                [ 75%]
 tests\unit\log\report\test_report.py ....                                [100%]
 
----------- coverage: platform win32, python 2.7.15-final-0 -----------
+---------- coverage: platform win32, python 2.7.17-final-0 -----------
 Name                                     Stmts   Miss  Cover
 ------------------------------------------------------------
+__init__.py                                  0      0   100%
 cmd\__init__.py                              0      0   100%
-cmd\cmd_parse.py                            27     27     0%
+cmd\cmd_execute.py                          39     15    62%
+cmd\cmd_parse.py                             9      0   100%
+cmd\exception.py                             6      3    50%
+common\__init__.py                           0      0   100%
+common\logger.py                             8      0   100%
 log\__init__.py                              3      0   100%
-log\crawler.py                              15      0   100%
-log\load.py                                 17     13    24%
-log\record.py                               47      5    89%
-log\report.py                               42      3    93%
-main.py                                      7      7     0%
+log\crawler.py                              21      0   100%
+log\exception.py                             4      2    50%
+log\parse.py                                19      3    84%
+log\record.py                               61      8    87%
+log\report.py                               41      3    93%
+main.py                                      8      8     0%
 tests\__init__.py                            0      0   100%
 tests\unit\__init__.py                       0      0   100%
 tests\unit\cmd\__init__.py                   0      0   100%
+tests\unit\cmd\fake_data.py                  8      0   100%
+tests\unit\cmd\test_cmd_execute.py          23      0   100%
+tests\unit\cmd\test_cmd_parse.py            13      0   100%
 tests\unit\log\__init__.py                   0      0   100%
 tests\unit\log\crawler\__init__.py           0      0   100%
 tests\unit\log\crawler\fake_data.py          4      0   100%
 tests\unit\log\crawler\test_crawler.py      12      0   100%
+tests\unit\log\parse\__init__.py             0      0   100%
+tests\unit\log\parse\fake_data.py            2      0   100%
+tests\unit\log\parse\test_parse.py          10      0   100%
 tests\unit\log\record\__init__.py            0      0   100%
 tests\unit\log\record\fake_data.py           7      0   100%
 tests\unit\log\record\test_record.py        26      0   100%
 tests\unit\log\report\__init__.py            0      0   100%
 tests\unit\log\report\fake_data.py           6      0   100%
-tests\unit\log\report\test_report.py        22      0   100%
+tests\unit\log\report\test_report.py        26      0   100%
 ------------------------------------------------------------
-TOTAL                                      235     55    77%
+TOTAL                                      356     42    88%
 
 
-========================== 10 passed in 0.61 seconds ==========================
+========================== 16 passed in 3.36 seconds ==========================
 ```
